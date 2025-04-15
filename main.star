@@ -29,7 +29,7 @@ def run(plan, args={}):
         "name": POSTGRES_SERVICE_NAME,
     }
 
-    postgres_db = postgres.run(plan)
+    postgres_db = postgres.run(plan, *postgres_args)
 
     postgres_db_hostname = get_postgres_hostname_from_service(postgres_db)
 
