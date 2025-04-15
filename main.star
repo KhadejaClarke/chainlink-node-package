@@ -53,7 +53,7 @@ def run(plan, args={}):
     chainlink_service = plan.add_service(
         name=CHAINLINK_SERVICE_NAME,
         config=ServiceConfig(
-            image=chainlink_image_name,
+            image="smartcontract/chainlink:2:22.0",
             ports={
                 "http": PortSpec(number=CHAINLINK_PORT, wait=CHAINLINK_PORT_WAIT),
                 "p2p": PortSpec(number=CHAINLINK_P2PV2_PORT, wait=None)
