@@ -34,7 +34,7 @@ def run(plan, args={}):
     postgres_db_hostname = get_postgres_hostname_from_service(postgres_db)
 
     # Render the config.toml and secret.toml file necessary to start the Chainlink node
-    chainlink_config_files = render_chainlink_config(plan, postgres_db_hostname, postgres_db.port.number, chain_name, chain_id, wss_url, http_url)
+    chainlink_config_files = render_chainlink_config(plan, postgres_db_hostname, postgres_db.port.number, postgres_db, chain_name, chain_id, wss_url, http_url)
 
     chainlink_image_name = args.get("node_image", DEFAULT_CHAINLINK_IMAGE)
 
@@ -116,7 +116,7 @@ def init_chain_connection(plan, args):
     return True, chain_name, chain_id, ws_url, http_url
 
 
-def render_chainlink_config(plan, postgres_hostname, postgres_port, chain_name, chain_id, wss_url, http_url):
+def render_chainlink_config(plan, postgres_hostname, postgres_port, postgres_db, chain_name, chain_id, wss_url, http_url):
     config_file_template = """
 [Log]
 Level = 'warn'
@@ -166,11 +166,11 @@ TurnLookBack = 0
             "secret.toml": struct(
                 template=secret_file_template,
                 data={
-                    "PG_USER": POSTGRES_USER,
-                    "PG_PASSWORD": POSTGRES_PASSWORD,
+                    "PG_USER": postgres_db.user,
+                    "PG_PASSWORD": postgres_db.password,
                     "HOST": postgres_hostname,
                     "PORT": postgres_port,
-                    "DATABASE": POSTGRES_DATABASE,
+                    "DATABASE": postgres_db.database,
                 }
             ),
         }
@@ -209,7 +209,7 @@ def seed_database(plan, postgres_db, chainlink_node_image, chainlink_config_file
         recipe=create_user_recipe,
         field="code",
         assertion="==",
-        target_value=1,
+        target_value=0,
         timeout="20s",
     )
 
