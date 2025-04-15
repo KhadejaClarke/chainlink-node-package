@@ -4,7 +4,7 @@ eth_network_package = import_module("github.com/ethpandaops/ethereum-package/mai
 postgres = import_module("github.com/KhadejaClarke/postgres-package/main.star")
 
 CHAINLINK_SERVICE_NAME = "chainlink"
-DEFAULT_CHAINLINK_IMAGE = "smartcontract/chainlink:1.13.1"
+DEFAULT_CHAINLINK_IMAGE = "smartcontract/chainlink:2:22.0"
 CHAINLINK_PORT = 6688
 CHAINLINK_PORT_WAIT = "30s"
 CHAINLINK_P2PV2_PORT=8000
@@ -30,7 +30,7 @@ def run(plan, args={}):
         "name": POSTGRES_SERVICE_NAME,
     }
 
-    postgres_db = postgres.run(plan, postgres_args)
+    postgres_db = postgres.run(plan, *postgres_args)
 
     postgres_db_hostname = get_postgres_hostname_from_service(postgres_db)
 
@@ -53,7 +53,7 @@ def run(plan, args={}):
     chainlink_service = plan.add_service(
         name=CHAINLINK_SERVICE_NAME,
         config=ServiceConfig(
-            image="smartcontract/chainlink:2:22.0",
+            image=image=chainlink_image_name,
             ports={
                 "http": PortSpec(number=CHAINLINK_PORT, wait=CHAINLINK_PORT_WAIT),
                 "p2p": PortSpec(number=CHAINLINK_P2PV2_PORT, wait=None)
