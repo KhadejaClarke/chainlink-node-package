@@ -30,7 +30,7 @@ def run(plan, args={}):
         "name": POSTGRES_SERVICE_NAME,
     }
 
-    postgres_db = postgres.run(plan)
+    postgres_db = postgres.run(plan, *postgres_args)
 
     postgres_db_hostname = get_postgres_hostname_from_service(postgres_db)
 
@@ -53,7 +53,7 @@ def run(plan, args={}):
     chainlink_service = plan.add_service(
         name=CHAINLINK_SERVICE_NAME,
         config=ServiceConfig(
-            image=image=chainlink_image_name,
+            image=chainlink_image_name,
             ports={
                 "http": PortSpec(number=CHAINLINK_PORT, wait=CHAINLINK_PORT_WAIT),
                 "p2p": PortSpec(number=CHAINLINK_P2PV2_PORT, wait=None)
