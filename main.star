@@ -18,8 +18,8 @@ POSTGRES_URL_MAIN_SEPARATOR = "@"
 POSTGRES_URL_HOSTNAME_DBNAME_SEPARATOR = "/"
 
 
-def run(plan, args):
-    plan.print("args: {}".format(args))
+def run(plan):
+    args = read_file("/args.json")
 
     # Configure the chain to connect to based on the args
     is_local_chain, chain_name, chain_id, wss_url, http_url = init_chain_connection(plan, args)
