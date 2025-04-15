@@ -17,7 +17,6 @@ POSTGRES_SERVICE_NAME = "postgres"
 POSTGRES_URL_MAIN_SEPARATOR = "@"
 POSTGRES_URL_HOSTNAME_DBNAME_SEPARATOR = "/"
 
-
 def run(plan, args={}):
     # Configure the chain to connect to based on the args
     is_local_chain, chain_name, chain_id, wss_url, http_url = init_chain_connection(plan, args)
@@ -43,7 +42,7 @@ def run(plan, args={}):
     # In the normal workflow, the user is being created by the user running the
     # container everytime the container starts on a fresh database. Here, we
     # programatically insert the values into the DB to create the user automatically
-    seed_database(plan, chainlink_image_name, chainlink_config_files)
+    seed_database(plan, postgres_db, chainlink_image_name, chainlink_config_files)
 
     # Finally we can start the Chainlink node and wait for it to be up and running
     mounted_files = {
@@ -179,7 +178,7 @@ TurnLookBack = 0
     return chainlink_config_files
 
 
-def seed_database(plan, chainlink_node_image, chainlink_config_files):
+def seed_database(plan, postgres_db, chainlink_node_image, chainlink_config_files):
     # This command fails, but at least it seeds the database with the right schema,
     # which is just what we need here
     plan.add_service(
