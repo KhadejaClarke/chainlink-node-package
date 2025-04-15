@@ -4,7 +4,7 @@ eth_network_package = import_module("github.com/ethpandaops/ethereum-package/mai
 postgres = import_module("github.com/KhadejaClarke/postgres-package/main.star")
 
 CHAINLINK_SERVICE_NAME = "chainlink"
-DEFAULT_CHAINLINK_IMAGE = "smartcontract/chainlink:1.13.1"
+DEFAULT_CHAINLINK_IMAGE = "smartcontract/chainlink:2.22.0"
 CHAINLINK_PORT = 6688
 CHAINLINK_PORT_WAIT = "30s"
 CHAINLINK_P2PV2_PORT=8000
