@@ -203,7 +203,7 @@ def seed_database(plan, chainlink_node_image, chainlink_config_files):
     )
 
     seed_user_sql = read_file("/chainlink_resources/seed_users.sql")
-    psql_command = "psql --username {} -c \"{}\" {}".format(POSTGRES_USER, str(seed_user_sql), POSTGRES_DATABASE)
+    psql_command = "psql --username {} -c \"{}\" {}".format(postgres_db.user, str(seed_user_sql), postgres_db.postgres_db)
     create_user_recipe = ExecRecipe(command = ["sh", "-c", psql_command])
     plan.wait(
         service_name=POSTGRES_SERVICE_NAME,
