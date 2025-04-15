@@ -179,10 +179,9 @@ TurnLookBack = 0
 
 
 def seed_database(plan, postgres_db, chainlink_node_image, chainlink_config_files):
-    # This command fails, but at least it seeds the database with the right schema,
-    # which is just what we need here
+    # First run the migration to create all required tables
     plan.add_service(
-        name="chainlink-seed",
+        name="chainlink-migrate",
         config=ServiceConfig(
             image=chainlink_node_image,
             files={
@@ -195,12 +194,24 @@ def seed_database(plan, postgres_db, chainlink_node_image, chainlink_config_file
                 "/chainlink/secret.toml",
                 "node",
                 "db",
-                "preparetest",
-                "--user-only",
+                "migrate",
             ],
         )
     )
 
+    # Wait for migration to complete
+    plan.wait(
+        service_name="chainlink-migrate",
+        recipe=ExecRecipe(
+            command=["echo", "Migration complete"],
+        ),
+        field="code",
+        assertion="==",
+        target_value=0,
+        timeout="60s",
+    )
+
+    # Now seed the user data
     seed_user_sql = read_file("/chainlink_resources/seed_users.sql")
     psql_command = "psql --username {} -c \"{}\" {}".format(postgres_db.user, str(seed_user_sql), postgres_db.database)
     create_user_recipe = ExecRecipe(command = ["sh", "-c", psql_command])
