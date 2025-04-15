@@ -18,7 +18,7 @@ POSTGRES_URL_MAIN_SEPARATOR = "@"
 POSTGRES_URL_HOSTNAME_DBNAME_SEPARATOR = "/"
 
 
-def run(plan, args):
+def run(plan, args={}):
     # Configure the chain to connect to based on the args
     is_local_chain, chain_name, chain_id, wss_url, http_url = init_chain_connection(plan, args)
 
@@ -105,7 +105,7 @@ def init_chain_connection(plan, args):
         http_url = "http://{}/ext/bc/C/rpc".format(avax_ip_port)
     elif args["chain_id"] == "3151908":
         plan.print("Spinning up local etheruem node")
-        participants, _ = eth_network_package.run(plan, args)
+        participants, _ = eth_network_package.run(plan)
         random_eth_node  = participants[0]
         eth_rpc = "{}:{}".format(random_eth_node.el_client_context.ip_addr, random_eth_node.el_client_context.rpc_port_num)
         eth_ws = "{}:{}".format(random_eth_node.el_client_context.ip_addr, random_eth_node.el_client_context.ws_port_num)
