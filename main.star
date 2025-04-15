@@ -1,7 +1,7 @@
 avalanche_module = import_module("github.com/kurtosis-tech/avalanche-package/main.star")
 eth_network_package = import_module("github.com/kurtosis-tech/eth-network-package/main.star")
 
-postgres = import_module("github.com/kurtosis-tech/postgres-package/main.star")
+postgres = import_module("github.com/KhadejaClarke/postgres-package/main.star")
 
 CHAINLINK_SERVICE_NAME = "chainlink"
 DEFAULT_CHAINLINK_IMAGE = "smartcontract/chainlink:1.13.1"
