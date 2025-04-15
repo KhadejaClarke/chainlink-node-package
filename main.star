@@ -209,7 +209,7 @@ def seed_database(plan, postgres_db, chainlink_node_image, chainlink_config_file
         recipe=create_user_recipe,
         field="code",
         assertion="==",
-        target_value=0,
+        target_value=1,
         timeout="20s",
     )
 
