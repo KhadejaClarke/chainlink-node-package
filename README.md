@@ -8,7 +8,7 @@ This package was written by automating the setup steps from the official Chainli
 #### Prerequisite
 If you're running on a Mac you will have to force docker to download the image for a different architecture by running:
 ```
-docker pull --platform linux/amd64 smartcontract/chainlink:1.13.1
+docker pull --platform linux/amd64 smartcontract/chainlink:2.22.0
 ```
 Once this finishes, the image will be cached in the local Docker engine. This is because Chainlink doesn't publish Docker images for Mac yet.
 
